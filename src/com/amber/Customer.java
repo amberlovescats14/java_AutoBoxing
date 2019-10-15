@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Customer {
     private ArrayList<Double> transactions = new ArrayList<>();
-    private static String name;
+    private String name;
     private double balance;
 
     //CONSTRUCTOR
@@ -18,6 +18,11 @@ public class Customer {
     public Customer(String name){
         new Customer(name, 0.0);
     }
+
+    public String getName() {
+        return name;
+    }
+
     //ADD_MONEY
     public void addMoney(double amount){
         transactions.add(amount);
@@ -37,5 +42,13 @@ public class Customer {
         System.out.println("___" + name + "'s Transactions___");
         transactions.forEach(t -> System.out.println(t));
         System.out.println("Current Balance " + balance);
+    }
+
+    public ArrayList<Double> getTransactions() {
+        return transactions;
+    }
+
+    public double getBalance() {
+        return balance;
     }
 }
