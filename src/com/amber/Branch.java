@@ -18,9 +18,7 @@ public class Branch {
         return branchName;
     }
     private boolean findCustomer(String name) {
-        boolean answer = false;
         List<Customer> match = customers.stream().filter(customer -> customer.getName().equals(name)).collect(Collectors.toList());
-        System.out.println("MATCH: " + match.size());
         if(match.size() > 0) return true;
         else return false;
     }
@@ -29,12 +27,9 @@ public class Branch {
     }
     public void depositCustomerTransaction(String name, double amount){
         if(findCustomer(name)) {
-            System.out.println("here");
-//                    customers.forEach(customer -> customer.getName().indexOf(name));
             for(int i=0; i< customers.size();i++){
                 if(customers.get(i).getName().equals(name)) {
-                    int index = i;
-                    Customer client = customers.get(index);
+                    Customer client = customers.get(i);
                     client.addMoney(amount);
                 }
             }
@@ -43,9 +38,12 @@ public class Branch {
     }
     public void withdrawCustomerTransaction(String name, double amount){
         if(findCustomer(name)){
-            int index = customers.indexOf(name);
-            Customer client = customers.get(index);
-            client.withdrawMoney(amount);
+            for(int i=0; i<customers.size();i++){
+                if(customers.get(i).getName().equals(name)){
+                    Customer client = customers.get(i);
+                    client.withdrawMoney(amount);
+                }
+            }
         }
         else System.out.println("Customer Not Found");
     }
@@ -53,9 +51,27 @@ public class Branch {
     public ArrayList<Customer> getCustomers() {
         return customers;
     }
-    public void showCustomers() {
-        System.out.println("SHOW");
-        customers.forEach(customer -> System.out.println("FIRST: " +customer.getName()));
-//        for(Customer customer: customers) System.out.println(customer.getName());
+    public void showCustomersAndTransactions() {
+        System.out.println("_________");
+        customers.forEach(customer -> System.out.println("Name: " +customer.getName()));
+        System.out.println("___Trasactions____");
+        customers.forEach(customer -> customer.showTransactions());
+        System.out.println("---------");
     }
+    public void showCustomers() {
+        System.out.println("__List Of Customers__");
+        customers.forEach(customer -> System.out.println("Name: " +customer.getName()));
+        System.out.println("---------");
+    }
+    public void showingCustomerTransactions(String name){
+        if(findCustomer(name)){
+            for(int i=0;i<customers.size();i++){
+                if(customers.get(i).getName().equals(name)){
+                    Customer found = customers.get(i);
+                    found.showTransactions();
+                }
+            }
+        }
+    }
+
 }

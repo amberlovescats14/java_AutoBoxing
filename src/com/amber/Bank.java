@@ -1,6 +1,8 @@
 package com.amber;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Bank {
     private String bankName;
@@ -14,8 +16,14 @@ public class Bank {
         return bankName;
     }
     private boolean findBranch(String name){
-        return branches.contains(name);
+        boolean answer = false;
+        List<Branch> match =
+                branches.stream().filter(customer -> customer.getBranchName().equals(name)).collect(Collectors.toList());
+        if(match.size() > 0) return true;
+        else return false;
     }
+
+
     public void addBranch(String name){
         if(!findBranch(name)) branches.add(new Branch(name));
     }
@@ -26,9 +34,12 @@ public class Bank {
             String customerName,
             double amount){
         if(findBranch(branchName)){
-            int index = branches.indexOf(branchName);
-            Branch name = branches.get(index);
-            name.addCustomer(customerName, amount);
+            for(int i=0; i<branches.size();i++){
+                if(branches.get(i).getBranchName().equals(branchName)){
+                    Branch found = branches.get(i);
+                    found.addCustomer(customerName, amount);
+                }
+            }
         }
         else System.out.println("Transaction Incomplete");
     }
@@ -39,9 +50,12 @@ public class Bank {
             double amount
     ){
         if(findBranch(branchName)){
-            int index = branches.indexOf(branchName);
-            Branch name = branches.get(index);
-            name.depositCustomerTransaction(customerName, amount);
+            for(int i=0; i< branches.size();i++){
+                if(branches.get(i).getBranchName().equals(branchName)){
+                    Branch found = branches.get(i);
+                    found.depositCustomerTransaction(customerName, amount);
+                }
+            }
         }
         else System.out.println("Transaction Incomplete");
     }
@@ -52,39 +66,40 @@ public class Bank {
             double amount
     ){
         if(findBranch(branchName)){
-            int index = branches.indexOf(branchName);
-            Branch name = branches.get(index);
-            name.withdrawCustomerTransaction(customerName, amount);
+            for(int i=0; i<branches.size();i++){
+                if(branches.get(i).getBranchName().equals(branchName)){
+                    Branch found = branches.get(i);
+                    found.withdrawCustomerTransaction(customerName, amount);
+                }
+            }
         }
         else System.out.println("Transaction Inccomplete");
     }
     // SHOW BRANCHES
     public void showBranchList(){
-        branches.forEach(branch -> System.out.println(branch));
+        branches.forEach(branch -> System.out.println(branch.getBranchName()));
     }
     // SHOW CUSTOMERS and/or TRANSACTIONS
     public void showCustomers(
             String branchName,
             boolean showTransactions
     ){
-        if(findBranch(branchName)){
-            int index = branches.indexOf(branchName);
-            Branch name = branches.get(index);
-            if(showTransactions){
-               ArrayList<Customer> branchCustomer = name.getCustomers();
-               for(int i=0; i<branchCustomer.size(); i++){
-                   Customer oneCustomer = branchCustomer.get(i);
-                   System.out.println("Customer Name: " + oneCustomer);
-                   System.out.println("Current Balance: " + oneCustomer.getBalance());
-                   System.out.println("__Transactions__");
-                   oneCustomer.showTransactions();
+        if(findBranch(branchName)) {
+            for(int i=0; i<branches.size();i++){
+                if(branches.get(i).getBranchName().equals(branchName)){
+                    if(showTransactions){
+                        Branch found = branches.get(i);
+                        found.showCustomersAndTransactions();
 
-               }
+                    }
+                    else {
+                        Branch found = branches.get(i);
+                        found.showCustomers();
+                    }
 
+                }
             }
-            else name.showCustomers();
         }
-        else System.out.println("Branch Not Found");
     }
 
 
