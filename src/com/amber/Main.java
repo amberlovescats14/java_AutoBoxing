@@ -16,7 +16,7 @@ public class Main {
         usaa.addBranch("Austin");
         usaa.addCustomer("Austin", "Mason Charles", 30000.00);
 
-        usaa.showCustomers("San Antonio", false);
+        usaa.showCustomers("San Antonio", true);
 
 
 

@@ -27,14 +27,14 @@ public class Customer {
     public void addMoney(double amount){
         transactions.add(amount);
         this.balance += amount;
-        System.out.println("Thank you, new balance: " + balance);
+        System.out.println("Deposit Complete. New balance: " + balance);
     }
     public void withdrawMoney(Double amount){
         if(amount > balance) System.out.println("Unsufficiant Funds");
         else {
             transactions.add(amount * -1);
             this.balance -= amount;
-            System.out.println("Thank you, new balance: " + balance);
+            System.out.println("Withdraw Complete. New balance: " + balance);
         }
     }
 
